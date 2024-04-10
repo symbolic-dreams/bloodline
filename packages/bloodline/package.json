@@ -1,0 +1,31 @@
+{
+    "name": "@symbolic-dreams/bloodline",
+    "version": "0.1.0",
+    "description": "Browser Oriented Tile Engine",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs"
+        }
+    },
+    "scripts": {
+        "build:dev": "webpack --mode=development",
+        "build:prod": "webpack --mode=production",
+        "lint": "eslint src/ --ext .mts --fix",
+        "test": "globstar -- node --import tsx --test \"src/**/*.test.mts\""
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^7.2.0",
+        "@typescript-eslint/parser": "^7.2.0",
+        "eslint": "^8.57.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-webpack-plugin": "^4.1.0",
+        "globstar": "^1.0.0",
+        "ts-loader": "^9.5.1",
+        "tsx": "^4.7.1",
+        "typescript": "^5.4.2",
+        "webpack": "^5.90.3",
+        "webpack-cli": "^5.1.4"
+    }
+}

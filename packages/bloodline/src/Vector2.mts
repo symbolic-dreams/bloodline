@@ -1,17 +1,10 @@
-/*!
- * @license
- * Copyright (C) 2020 Michael L Haufe
- * SPDX-License-Identifier: AGPL-3.0-only
- * @see <https://spdx.org/licenses/AGPL-3.0-only.html>
- */
-
 type Radian = number;
 
 class Vector2 {
     constructor(
         readonly a: number,
         readonly b: number
-    ) {}
+    ) { }
 
     /**
      * <a,b> + <c,d> = <a+c,b+d>
@@ -75,18 +68,18 @@ class Vector2 {
  * The standard basis vector <1, 0>
  */
 class BasisX extends Vector2 {
-    constructor(){ super(1, 0); }
+    constructor() { super(1, 0); }
 
-    direction(): Radian { return 0; }
+    override direction(): Radian { return 0; }
 }
 
 /**
  * The standard basis vector <0, 1>
  */
 class BasisY extends Vector2 {
-    constructor(){ super(0, 1); }
+    constructor() { super(0, 1); }
 
-    direction(): Radian { return Math.PI / 2; }
+    override direction(): Radian { return Math.PI / 2; }
 }
 
 /**
@@ -114,7 +107,7 @@ class Polar extends Vector2 {
 class Unit extends Vector2 {
     constructor() { super(1, 0); }
 
-    direction(): Radian { return 0; }
+    override direction(): Radian { return 0; }
 }
 
 /**
@@ -123,9 +116,9 @@ class Unit extends Vector2 {
 class Zero extends Vector2 {
     constructor() { super(0, 0); }
 
-    add(vector2: Vector2): Vector2 { return vector2; }
+    override add(vector2: Vector2): Vector2 { return vector2; }
 
-    direction(): Radian { return 0; }
+    override direction(): Radian { return 0; }
 }
 
-export {Vector2, BasisX, BasisY, Cartesian, Polar, Unit, Zero};
+export { Vector2, BasisX, BasisY, Cartesian, Polar, Unit, Zero };

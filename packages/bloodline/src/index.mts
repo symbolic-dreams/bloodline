@@ -1,0 +1,1 @@
+self.console.log('Hello, world!');
