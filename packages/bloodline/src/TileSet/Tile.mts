@@ -1,4 +1,5 @@
 import { Entity } from '~/Entity.mjs';
+import { Rectangle } from '~/Rectangle.mjs';
 import { Properties } from '~/types/Properties.mjs';
 
 /**
@@ -6,24 +7,33 @@ import { Properties } from '~/types/Properties.mjs';
  * @see TileSet
  */
 export class Tile extends Entity<number> {
-    #size: number;
-    #image: ImageBitmap;
-
-    constructor({ id, size, image }: Properties<Tile>
-    ) {
-        super({ id });
-
-        this.#size = size;
-        this.#image = image;
-    }
+    readonly tileSetImage!: ImageBitmap;
 
     /**
      * The size of the tile.
      */
-    get size() { return this.#size; }
+    readonly size!: number;
 
     /**
-     * The image of the tile.
+     * The rectangle in the tile set image that contains this tile.
      */
-    get image() { return this.#image; }
+    readonly sourceRect!: Rectangle;
+
+    constructor({ id, ...rest }: Properties<Omit<Tile, 'sourceRect'>>) {
+        super({ id });
+
+        Object.assign(this, rest);
+
+        const { tileSetImage, size } = this,
+            { width: tWidth } = tileSetImage,
+            tileY = Math.floor(id / (tWidth / size)),
+            tileX = id % (tWidth / size);
+
+        this.sourceRect = new Rectangle({
+            x: tileX * size,
+            y: tileY * size,
+            width: size,
+            height: size
+        });
+    }
 }

@@ -1,17 +1,21 @@
 import { Game } from '@symbolic-dreams/bloodline';
 import defaultMap from './game/maps/default.json'
 import defaultTilSet from './game/tilesets/default-32.png'
+import transitionTestMap from './game/maps/transition-test.json'
+import transitionTestTileSet from './game/tilesets/transition-test-48.png'
 
 const { min, max } = Math,
     clamp = (value: number, low: number, high: number) => min(max(value, low), high);
 
 class DemoGame extends Game {
     override tileSets = new Map([
-        ['default', { size: 32, url: defaultTilSet }]
+        ['default', { size: 32, url: defaultTilSet }],
+        ['transition-test', { size: 48, url: transitionTestTileSet }]
     ])
 
     override tileMaps = new Map([
-        ['default', { json: defaultMap }]
+        ['default', { json: defaultMap }],
+        ['transition-test', { json: transitionTestMap }]
     ])
 
     override onKeyDown(e: KeyboardEvent) {
@@ -48,6 +52,7 @@ class DemoGame extends Game {
 }
 
 const game = new DemoGame();
-game.loadMap('default').then(() => {
+//game.loadMap('default').then(() => {
+game.loadMap('transition-test').then(() => {
     game.start();
 })

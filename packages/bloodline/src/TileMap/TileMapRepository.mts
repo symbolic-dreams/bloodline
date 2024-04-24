@@ -4,7 +4,7 @@ import { TileSetRepository } from '~/TileSet/TileSetRepository.mjs';
 import { MapCell } from './MapCell.mjs';
 
 export interface TileMapJson {
-    cells: number[][];
+    cells: number[][][];
     cellsDown: number;
     cellsAcross: number;
     tileSetId: string;
@@ -35,12 +35,9 @@ export class TileMapRepository extends Repository<TileMap> {
             tileSet = await tileSetRepository.get(tileSetId),
             tileMap = new TileMap({
                 id, width, height, tileSet,
-                cells: cells.map(row => row.map(id =>
-                    new MapCell({
-                        // Only one tile per cell for now
-                        tiles: [tileSet.tiles[id]]
-                    })
-                ))
+                cells: cells.map(row => row.map(cell => new MapCell({
+                    tiles: cell.map(id => tileSet.tiles[id])
+                })))
             });
 
         return tileMap;

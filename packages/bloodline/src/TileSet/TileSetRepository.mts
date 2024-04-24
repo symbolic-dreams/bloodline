@@ -12,39 +12,24 @@ export class TileSetRepository extends Repository<TileSet> {
         this.#tileSets = tileSets;
     }
 
-    async #loadTiles(url: string, size: number) {
-        const response = await fetch(url),
-            blob = await response.blob(),
-            image = await createImageBitmap(blob),
-            { width, height } = image,
-            tiles = await Promise.all(
-                Array.from({ length: width / size * height / size }, async (_, i) => {
-                    const x = i % (width / size) * size,
-                        y = Math.floor(i / (width / size)) * size,
-                        img = await createImageBitmap(image, x, y, size, size);
-
-                    return new Tile({ id: i, size, image: img });
-                })
-            );
-        // No need to keep the original image in memory after we've created the tiles
-        image.close();
-
-        return tiles;
-    }
-
     override async get(id: string) {
-        const tileSetReg = this.#tileSets.get(id);
+        const tileSetRegistry = this.#tileSets.get(id);
 
-        if (!tileSetReg)
+        if (!tileSetRegistry)
             throw new Error(`Tile set with id '${id}' not found`);
 
-        const { size, url } = tileSetReg,
-            tiles = await this.#loadTiles(await url, size);
+        const { size, url } = tileSetRegistry,
+            response = await fetch(url),
+            blob = await response.blob(),
+            tileSetImage = await createImageBitmap(blob),
+            { width, height } = tileSetImage;
 
         return new TileSet({
             id,
             tileSize: size,
-            tiles
+            tiles: Array.from({ length: width / size * height / size },
+                (_, i) => new Tile({ id: i, size, tileSetImage })
+            )
         });
     }
 }

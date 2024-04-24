@@ -100,13 +100,18 @@ export abstract class Game extends Presenter<TileMap> {
                 const isCellInView = x * tileSize + tileSize > cx && x * tileSize < cx + cw;
                 if (!isCellInView) return;
 
-                // draw tiles in cell in reverse order
-                for (let i = cell.length - 1; i >= 0; i--) {
+                for (let i = 0; i < cell.length; i++) {
                     const tile = cell.tiles[i];
                     ctx.drawImage(
-                        tile.image,
+                        tile.tileSetImage,
+                        tile.sourceRect.x,
+                        tile.sourceRect.y,
+                        tileSize,
+                        tileSize,
                         x * tileSize - cx,
-                        y * tileSize - cy
+                        y * tileSize - cy,
+                        tileSize,
+                        tileSize
                     );
                 }
             });
