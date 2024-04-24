@@ -12,7 +12,7 @@ export default {
         outputModule: true
     },
     devServer: {
-        port: 8081,
+        port: 8081
     },
     mode: 'production',
     module: {

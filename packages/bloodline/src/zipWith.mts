@@ -1,0 +1,1 @@
+export const zipWith = <T, U, V>(ts: readonly T[], us: readonly U[], f: (t: T, u: U) => V): V[] => ts.map((t, i) => f(t, us[i]));

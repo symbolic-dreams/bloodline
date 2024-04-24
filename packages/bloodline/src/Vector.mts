@@ -1,5 +1,6 @@
+import { zipWith } from './zipWith.mjs';
+
 export abstract class Vector {
-    [index: number]: number;
     [Symbol.iterator]() { return this.#components[Symbol.iterator](); }
 
     #components: readonly number[];
@@ -10,10 +11,24 @@ export abstract class Vector {
         this.#components = components;
     }
 
-    distanceTo([...vs]: Vector): number {
-        const us = this.#components;
+    add([...vs]: this): this {
+        const Cons = this.constructor as any;
 
-        return Math.hypot(...vs.map((v, i) => v - us[i]));
+        return new Cons(...zipWith(this.#components, vs, (u, v) => u + v));
+    }
+
+    distanceTo([...vs]: this): number {
+        return Math.hypot(...zipWith(this.#components, vs, (u, v) => v - u));
+    }
+
+    divide(scalar: number): this {
+        const Cons = this.constructor as any;
+
+        return new Cons(...this.#components.map(c => c / scalar));
+    }
+
+    toString(): string {
+        return `<${this.#components.join(', ')}>`;
     }
 }
 
@@ -24,6 +39,15 @@ export class Vector2 extends Vector {
 
         return a * d - b * c;
     }
+}
+
+export class Point2 extends Vector2 {
+    constructor(x: number, y: number) {
+        super(x, y);
+    }
+
+    get x() { return this.components[0]; }
+    get y() { return this.components[1]; }
 }
 
 export class Vector3 extends Vector {

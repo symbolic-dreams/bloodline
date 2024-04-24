@@ -17,7 +17,7 @@
         "build:bloodline:prod": "npm -w @symbolic-dreams/bloodline run build:prod",
         "lint:bloodline": "npm -w @symbolic-dreams/bloodline run lint",
         "test:bloodline": "npm -w @symbolic-dreams/bloodline run test",
-        "serve:demo": "npm -w @symbolic-dreams/bloodline-demo run serve",
+        "serve": "npm -w @symbolic-dreams/bloodline-demo run serve",
         "test": "npm -w @symbolic-dreams/bloodline run test"
     },
     "workspaces": [
