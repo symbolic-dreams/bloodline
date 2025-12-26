@@ -15,13 +15,16 @@
         "build:demo": "npm -w @symbolic-dreams/bloodline-demo run build",
         "build:bloodline:dev": "npm -w @symbolic-dreams/bloodline run build:dev",
         "build:bloodline:prod": "npm -w @symbolic-dreams/bloodline run build:prod",
+        "build:editor": "npm -w @symbolic-dreams/bloodline-editor run build",
         "lint:bloodline": "npm -w @symbolic-dreams/bloodline run lint",
         "test:bloodline": "npm -w @symbolic-dreams/bloodline run test",
-        "serve": "npm -w @symbolic-dreams/bloodline-demo run serve",
+        "serve:demo": "npm -w @symbolic-dreams/bloodline-demo run serve",
+        "serve:editor": "npm -w @symbolic-dreams/bloodline-editor run serve",
         "test": "npm -w @symbolic-dreams/bloodline run test"
     },
     "workspaces": [
         "apps/demo",
+        "apps/editor",
         "packages/bloodline"
     ]
 }

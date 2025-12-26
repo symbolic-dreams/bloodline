@@ -6,6 +6,9 @@
         },
         {
             "path": "./apps/demo/tsconfig.ref.json"
+        },
+        {
+            "path": "./apps/editor/tsconfig.ref.json"
         }
     ]
 }
