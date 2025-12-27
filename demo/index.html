@@ -4,18 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo</title>
-    <script type="importmap">
-    {
-        "imports": {
-            "engine": "../engine/index.mjs"
-        }
-    }
+    <title>Tile Engine Demo</title>
+    <script type="module" src="../engine/index.mjs"></script>
+    <script type="module" defer>
+        import { Engine } from "../engine/index.mjs";
+
+        const elContainer = document.body;
+
+        const water = 0,
+            grass = 1,
+            sand = 2;
+
+        const engine = new Engine({
+            baseUrl: './assets/tiles',
+            size: 64,
+            elContainer
+        });
+
+        engine.render(water, grass, sand);
     </script>
 </head>
 
 <body>
-    Hello from the Demo!
 </body>
 
 </html>
