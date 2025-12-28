@@ -15,14 +15,18 @@ export class TileSheetRepository extends Repository {
             blob = await response.blob(),
             image = await createImageBitmap(blob),
             { width, height } = image,
-            tiles = [];
+            tilePromises = [];
 
         for (let y = 0; y < height; y += this.tileSize) {
             for (let x = 0; x < width; x += this.tileSize) {
-                const tileImage = await createImageBitmap(image, x, y, this.tileSize, this.tileSize);
-                tiles.push(new Tile({ id: tiles.length, size: this.tileSize, imageBitmap: tileImage }));
+                tilePromises.push(createImageBitmap(image, x, y, this.tileSize, this.tileSize));
             }
         }
+
+        const tileBitmaps = await Promise.all(tilePromises),
+            tiles = tileBitmaps.map((imageBitmap, index) => 
+                new Tile({ id: index, size: this.tileSize, imageBitmap })
+            );
 
         image.close(); // No need to keep the image in memory after we've created the tiles
 

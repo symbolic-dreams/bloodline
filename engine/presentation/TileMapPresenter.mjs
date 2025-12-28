@@ -7,8 +7,12 @@ export class TileMapPresenter extends Presenter {
     }
 
     present(tileMap) {
-        const { width, height, tiles } = tileMap,
-            tileSize = tiles[0][0].size,
+        const { width, height, tileSheet, tiles } = tileMap;
+        
+        if (!tiles || tiles.length === 0 || !tiles[0] || tiles[0].length === 0)
+            return;
+
+        const tileSize = tileSheet.tileSize,
             canvas = document.createElement("canvas"),
             ctx = canvas.getContext("2d");
 
@@ -21,6 +25,7 @@ export class TileMapPresenter extends Presenter {
             });
         });
 
+        this.container.innerHTML = '';
         this.container.appendChild(canvas);
     }
 }

@@ -8,12 +8,12 @@
     <script type="module" defer>
         import { Engine } from "../engine/index.mjs";
 
-        const elContainer = document.body;
+        const container = document.body;
 
         const engine = new Engine({
             baseUrl: './assets',
             size: 64,
-            elContainer
+            container
         });
 
         engine.renderMap('default');
