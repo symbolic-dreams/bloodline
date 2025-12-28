@@ -4,19 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tile Editor</title>
-
-    <script type="importmap">
-    {
-        "imports": {
-            "engine": "../engine/index.mjs"
+    <title>Tile Map Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
         }
-    }
+
+        h3 {
+            margin: 10px 0;
+        }
+    </style>
+    <script type="module" defer>
+        import { EditorEngine } from "../engine/index.mjs";
+
+        const editor = new EditorEngine({
+            baseUrl: '../demo/assets',
+            size: 64,
+            container: document.body
+        });
+
+        editor.createNew({
+            width: 10,
+            height: 10,
+            tileSheetId: 'default'
+        });
     </script>
 </head>
 
 <body>
-    Hello from the Tile Editor!
 </body>
 
 </html>
