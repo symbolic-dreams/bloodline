@@ -1,16 +1,16 @@
-import { TileInteractor } from "./application/TileInteractor.mjs";
-import { TileRepository } from "./data/TileRepository.mjs";
-import { TilePresenter } from "./presentation/TilePresenter.mjs";
+import { TileMapInteractor } from "./application/TileMapInteractor.mjs";
+import { TileMapRepository } from "./data/TileMapRepository.mjs";
+import { TileMapPresenter } from "./presentation/TileMapPresenter.mjs";
 
 export class Engine {
-    constructor({ baseUrl, size, elContainer }) {
-        this.interactor = new TileInteractor({
-            repository: new TileRepository({ baseUrl, size }),
-            presenter: new TilePresenter(elContainer)
+    constructor({ baseUrl, size, container }) {
+        this.interactor = new TileMapInteractor({
+            repository: new TileMapRepository({ baseUrl, size }),
+            presenter: new TileMapPresenter({ container })
         });
     }
 
-    render(...tileIds) {
-        tileIds.forEach(id => this.interactor.renderTile(id));
+    async renderMap(mapId) {
+        await this.interactor.loadTileMap(mapId);
     }
 }
