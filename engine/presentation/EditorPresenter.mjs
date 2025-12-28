@@ -112,6 +112,7 @@ export class EditorPresenter extends Presenter {
 
     _drawGrid({ width, height, tileSize }) {
         this.mapContext.strokeStyle = `rgba(0, 0, 0, ${GRID_OPACITY})`;
+        this.mapContext.lineWidth = GRID_LINE_WIDTH;
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
                 this.mapContext.strokeRect(x * tileSize, y * tileSize, tileSize, tileSize);
