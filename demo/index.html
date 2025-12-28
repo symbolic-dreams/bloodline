@@ -4,23 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tile Engine Demo</title>
+    <title>Tile Engine Demo - Tile Maps</title>
     <script type="module" defer>
         import { Engine } from "../engine/index.mjs";
 
         const elContainer = document.body;
 
-        const water = 0,
-            grass = 1,
-            sand = 2;
-
         const engine = new Engine({
-            baseUrl: './assets/tiles',
+            baseUrl: './assets',
             size: 64,
             elContainer
         });
 
-        engine.render(water, grass, sand);
+        engine.renderMap('default');
     </script>
 </head>
 

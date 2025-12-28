@@ -1,7 +1,7 @@
 export class Tile {
-    constructor({ id, size, url }) {
+    constructor({ id, size, imageBitmap }) {
         this.id = id;
         this.size = size;
-        this.url = url;
+        this.imageBitmap = imageBitmap;
     }
 }
