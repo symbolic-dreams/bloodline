@@ -13,7 +13,7 @@ export class EditorInteractor extends Interactor {
         });
     }
 
-    async createNewMap({ width, height, tileSheetId, size }) {
+    async createNewMap({ width, height, tileSheetId }) {
         const tileSheet = await this.tileSheetRepository.get(tileSheetId),
             tiles = Array.from({ length: height }, () =>
                 Array.from({ length: width }, () => tileSheet.tiles[0])
@@ -51,7 +51,7 @@ export class EditorInteractor extends Interactor {
     exportMap() {
         if (!this.currentTileMap) return null;
 
-        const { id, width, height, tileSheet, tiles } = this.currentTileMap,
+        const { width, height, tileSheet, tiles } = this.currentTileMap,
             tileIds = tiles.map(row => row.map(tile => tile.id));
 
         return JSON.stringify({

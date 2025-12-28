@@ -1,5 +1,11 @@
 import { Presenter } from "../application/Presenter.mjs";
 
+// Visual constants
+const PALETTE_MAX_TILES_PER_ROW = 10;
+const TILE_HIGHLIGHT_LINE_WIDTH = 3;
+const GRID_OPACITY = 0.2;
+const GRID_LINE_WIDTH = 1;
+
 export class EditorPresenter extends Presenter {
     constructor({ container, onTileSelect, onMapClick }) {
         super();
@@ -29,20 +35,16 @@ export class EditorPresenter extends Presenter {
 
     _createTilePalette(tileSheet) {
         const tileSize = tileSheet.tileSize,
-            sheetContainer = Object.assign(document.createElement('div'), {
-                style: 'margin-bottom: 20px;'
-            }),
+            sheetContainer = document.createElement('div'),
             sheetLabel = Object.assign(document.createElement('h3'), {
                 textContent: 'Tile Palette'
             });
 
         sheetContainer.appendChild(sheetLabel);
 
-        this.sheetCanvas = Object.assign(document.createElement('canvas'), {
-            style: 'border: 2px solid #333; cursor: pointer;'
-        });
+        this.sheetCanvas = document.createElement('canvas');
 
-        const tilesPerRow = Math.min(10, tileSheet.tiles.length),
+        const tilesPerRow = Math.min(PALETTE_MAX_TILES_PER_ROW, tileSheet.tiles.length),
             sheetRows = Math.ceil(tileSheet.tiles.length / tilesPerRow);
 
         Object.assign(this.sheetCanvas, {
@@ -80,10 +82,10 @@ export class EditorPresenter extends Presenter {
 
         mapContainer.appendChild(mapLabel);
 
-        this.mapCanvas = Object.assign(document.createElement('canvas'), {
+        this.mapCanvas = document.createElement('canvas');
+        Object.assign(this.mapCanvas, {
             width: width * tileSize,
-            height: height * tileSize,
-            style: 'border: 2px solid #333; cursor: crosshair;'
+            height: height * tileSize
         });
 
         this.mapContext = this.mapCanvas.getContext('2d');
@@ -109,7 +111,7 @@ export class EditorPresenter extends Presenter {
     }
 
     _drawGrid({ width, height, tileSize }) {
-        this.mapContext.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        this.mapContext.strokeStyle = `rgba(0, 0, 0, ${GRID_OPACITY})`;
         for (let x = 0; x <= width; x++) {
             this.mapContext.beginPath();
             this.mapContext.moveTo(x * tileSize, 0);
@@ -125,24 +127,16 @@ export class EditorPresenter extends Presenter {
     }
 
     _createButtons() {
-        const buttonsContainer = Object.assign(document.createElement('div'), {
-            style: 'margin-top: 20px; display: flex; gap: 10px;'
-        });
+        const buttonsContainer = document.createElement('div');
 
-        this.newMapButton = Object.assign(document.createElement('button'), {
-            textContent: 'New Map',
-            style: 'padding: 10px 20px; font-size: 16px; cursor: pointer;'
-        });
+        this.newMapButton = document.createElement('button');
+        this.newMapButton.textContent = 'New Map';
 
-        this.loadMapButton = Object.assign(document.createElement('button'), {
-            textContent: 'Load Map',
-            style: 'padding: 10px 20px; font-size: 16px; cursor: pointer;'
-        });
+        this.loadMapButton = document.createElement('button');
+        this.loadMapButton.textContent = 'Load Map';
 
-        this.saveMapButton = Object.assign(document.createElement('button'), {
-            textContent: 'Save Map',
-            style: 'padding: 10px 20px; font-size: 16px; cursor: pointer;'
-        });
+        this.saveMapButton = document.createElement('button');
+        this.saveMapButton.textContent = 'Save Map';
 
         buttonsContainer.appendChild(this.newMapButton);
         buttonsContainer.appendChild(this.loadMapButton);
@@ -154,7 +148,7 @@ export class EditorPresenter extends Presenter {
         if (!this.sheetCanvas || !this.currentTileSheet) return;
 
         const tileSize = this.currentTileSheet.tileSize,
-            tilesPerRow = Math.min(10, this.currentTileSheet.tiles.length),
+            tilesPerRow = Math.min(PALETTE_MAX_TILES_PER_ROW, this.currentTileSheet.tiles.length),
             ctx = this.sheetCanvas.getContext('2d');
 
         // Redraw to clear previous highlight
@@ -170,7 +164,7 @@ export class EditorPresenter extends Presenter {
             y = Math.floor(tileId / tilesPerRow) * tileSize;
 
         ctx.strokeStyle = 'red';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = TILE_HIGHLIGHT_LINE_WIDTH;
         ctx.strokeRect(x, y, tileSize, tileSize);
     }
 
@@ -181,8 +175,8 @@ export class EditorPresenter extends Presenter {
         this.mapContext.drawImage(tile.imageBitmap, x * tileSize, y * tileSize);
 
         // Redraw grid line
-        this.mapContext.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-        this.mapContext.lineWidth = 1;
+        this.mapContext.strokeStyle = `rgba(0, 0, 0, ${GRID_OPACITY})`;
+        this.mapContext.lineWidth = GRID_LINE_WIDTH;
         this.mapContext.strokeRect(x * tileSize, y * tileSize, tileSize, tileSize);
     }
 }

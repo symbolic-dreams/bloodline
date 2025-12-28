@@ -12,29 +12,23 @@ export class EditorEngine {
     }
 
     async createNew({ width, height, tileSheetId }) {
-        const presenter = new EditorPresenter({
-            container: this.container,
-            onTileSelect: (tileId) => this.interactor.selectTile(tileId),
-            onMapClick: (x, y) => this.interactor.placeTile({ x, y })
-        });
-
-        this.interactor = new EditorInteractor({
-            tileSheetRepository: this.tileSheetRepository,
-            tileMapRepository: this.tileMapRepository,
-            presenter
-        });
-
+        const presenter = this._initializeEditor();
         await this.interactor.createNewMap({
             width,
             height,
-            tileSheetId,
-            size: this.size
+            tileSheetId
         });
 
         this._wireUpButtons({ width, height, tileSheetId }, presenter);
     }
 
     async loadMap(mapId) {
+        const presenter = this._initializeEditor();
+        await this.interactor.loadMap(mapId);
+        this._wireUpButtons({ width: 10, height: 10, tileSheetId: 'default' }, presenter);
+    }
+
+    _initializeEditor() {
         const presenter = new EditorPresenter({
             container: this.container,
             onTileSelect: (tileId) => this.interactor.selectTile(tileId),
@@ -47,9 +41,7 @@ export class EditorEngine {
             presenter
         });
 
-        await this.interactor.loadMap(mapId);
-
-        this._wireUpButtons({ width: 10, height: 10, tileSheetId: 'default' }, presenter);
+        return presenter;
     }
 
     _wireUpButtons({ width, height, tileSheetId }, presenter) {
